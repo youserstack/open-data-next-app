@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update": "git add . && git commit -m 'update' && git push"
   },
   "dependencies": {
     "bootstrap-icons": "^1.11.3",
