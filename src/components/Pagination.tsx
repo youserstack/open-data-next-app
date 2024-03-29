@@ -10,7 +10,6 @@ export default function Pagination({
 }: any) {
   // 전체 페이지 개수 = 전체 아이템 개수 / 페이지당 아이템 개수
   const totalPages: any = Math.ceil(totalItems / ITEMS_PER_PAGE); // 마지막 페이지, 페이지 구간에서 next button disable 을 하기 위해 필요
-  console.log({ totalPages });
 
   // 현재 페이지 그룹의 넘버들를 담을 배열을 만든다.
   // 현재 페이지 그룹을 알아내야 현재 페이지 그룹의 넘버들을 만들 수 있다.
@@ -20,7 +19,6 @@ export default function Pagination({
   const start = PAGES_PER_VIEW * (currentPageGroup - 1);
   const end =
     PAGES_PER_VIEW * currentPageGroup > totalPages ? totalPages : PAGES_PER_VIEW * currentPageGroup;
-  // console.log({ start, end });
   for (let i = start; i < end; i++) {
     pages.push(i + 1); // index가 0에서부터 시작하니까 +1
   }

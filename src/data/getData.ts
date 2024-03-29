@@ -11,3 +11,8 @@ export async function getData({ url, page, ITEMS_PER_PAGE }: any) {
     totalItems: data.length,
   };
 }
+
+export async function getDataWithOpenApi({ url, page, ITEMS_PER_PAGE }: any) {
+  const data = await fetchData(url);
+  return data;
+}

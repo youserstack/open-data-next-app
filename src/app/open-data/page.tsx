@@ -1,11 +1,11 @@
 "use client";
 
-import Items from "../../components/Items";
 import Pagination from "../../components/Pagination";
 import { useEffect, useState } from "react";
 import "../../styles/open-data.scss";
 import { fetchData } from "@/utils/fetchData";
-import { getData } from "@/data/getData";
+import { getData, getDataWithOpenApi } from "@/data/getData";
+import OpenDataRows from "@/components/OpenDataRows";
 
 const ITEMS_PER_PAGE = 20; // 페이지당 아이템수
 
@@ -16,39 +16,42 @@ export default function page() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchItems = async () => {
+    const fetchPosts = async () => {
       setLoading(true);
 
-      const domain = process.env.SEOUL_OPEN_URL;
-      const authKey = process.env.SEOUL_OPEN_API_KEY;
-      const serviceCode = "VwsmAdstrdNcmCnsmpW";
-      const endItem = currentPage * ITEMS_PER_PAGE;
-      const startItem = endItem - ITEMS_PER_PAGE + 1;
-      const paginate = `${startItem}/${endItem}`;
-      const openApiUrl = `${domain}/${authKey}/json/${serviceCode}/${paginate}`;
       const data: any = await getData({
         url: "https://jsonplaceholder.typicode.com/posts",
         page: currentPage,
         ITEMS_PER_PAGE,
       });
-      // const data: any = await fetchData("https://jsonplaceholder.typicode.com/posts");
-      // console.log({ data });
       const { items, totalItems } = data;
 
       setItems(items);
       setTotalItems(totalItems);
       setLoading(false);
-      // const data: any = await fetch(openApiUrl)
-      //   .then((res) => res.json())
-      //   .catch((err) => console.log({ err }));
-      // const { RESULT, list_total_count, row } = data.VwsmAdstrdNcmCnsmpW;
-      // console.log({ row });
-      // setItems(row);
-      // setTotalItems(list_total_count);
-      // setLoading(false);
     };
 
-    fetchItems();
+    const fetchOpenDataRows = async () => {
+      setLoading(true);
+
+      const domain = process.env.SEOUL_OPEN_URL;
+      const authKey = process.env.SEOUL_OPEN_API_KEY;
+      const serviceCode = "VwsmAdstrdNcmCnsmpW";
+      const start = ITEMS_PER_PAGE * (currentPage - 1) + 1; // 시작에 1을 더해준다.
+      const end = ITEMS_PER_PAGE * currentPage;
+      const openApiUrl = `${domain}/${authKey}/json/${serviceCode}/${start}/${end}`;
+      const data: any = await getDataWithOpenApi({
+        url: openApiUrl,
+      });
+      const { RESULT, list_total_count, row } = data.VwsmAdstrdNcmCnsmpW;
+      // console.log({ data });
+
+      setItems(row);
+      setTotalItems(list_total_count);
+      setLoading(false);
+    };
+
+    fetchOpenDataRows();
   }, [currentPage]);
 
   // 검색
@@ -117,7 +120,7 @@ export default function page() {
               </tr>
             </thead> */}
             <tbody>
-              <Items items={filteredData.length ? filteredData : items} loading={loading} />
+              <OpenDataRows items={filteredData.length ? filteredData : items} loading={loading} />
             </tbody>
           </table>
           <Pagination
