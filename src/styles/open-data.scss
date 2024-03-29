@@ -2,6 +2,7 @@
   --background-color__box: #eee;
   --border-color__box: #e0e0e0;
   --background-color__table: #fff;
+  --background-color__table-head: #aaa;
 }
 
 .open-data {
@@ -69,6 +70,10 @@
         td {
           border: 1px solid var(--border-color__box);
           padding: 0.5rem;
+        }
+
+        th {
+          background-color: var(--background-color__table-head);
         }
       }
 

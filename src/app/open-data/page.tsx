@@ -93,19 +93,39 @@ export default function page() {
 
       setSearchedItems(rows);
       setSearchedTotalItems(rows.length);
-
       // 검색된 아이템들은 클라이언트에 모두 저장되어 있기 때문에
       // 페이지를 이동할때 저장된 클라이언트의 데이터에서 추출만하면 된다.
       const start = (currentPage - 1) * ITEMS_PER_PAGE;
       const end = start + ITEMS_PER_PAGE;
       const slicedItems = rows.slice(start, end);
       setPaginatedItems(slicedItems);
+      setCurrentPage(1);
     } catch (err) {
       console.log({ err });
     }
     setLoading(false);
   };
 
+  const handleSort = (e: any) => {
+    console.log({ searchedItems });
+    e.preventDefault();
+
+    // 내림차순 정렬
+    const sortedItems = searchedItems.sort((next: any, prev: any): any => {
+      if (prev.ADSTRD_CD_NM > next.ADSTRD_CD_NM) return -1;
+      if (prev.ADSTRD_CD_NM < next.ADSTRD_CD_NM) return 1;
+      else return 0;
+    });
+
+    // 검색 아이템
+    setSearchedItems(sortedItems);
+    // 현재 페이지를 1로 해준다.
+    setCurrentPage(1);
+    // 정렬된 모든 아이템을 다시 페이지네이션한다.
+    paginateSearchedItems();
+  };
+
+  // 검색 데이터 페이지네이트 (시작-끝 페이지를 정한다.)
   const paginateSearchedItems = () => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     const end = start + ITEMS_PER_PAGE;
@@ -125,6 +145,13 @@ export default function page() {
           />
           <button className="search-button" onClick={handleSearch}>
             행정동 검색
+          </button>
+          <button
+            className="sort-button"
+            onClick={handleSort}
+            // disabled={searchedItems.length === 0}
+          >
+            사전순 정렬
           </button>
         </div>
         <div className="content">
