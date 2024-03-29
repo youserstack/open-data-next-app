@@ -17,8 +17,9 @@ export default function Pagination({
   let pages: any = [];
   let currentPageGroup = Math.ceil(currentPage / PAGES_PER_VIEW);
   const start = PAGES_PER_VIEW * (currentPageGroup - 1);
-  const end =
-    PAGES_PER_VIEW * currentPageGroup > totalPages ? totalPages : PAGES_PER_VIEW * currentPageGroup;
+  const end = Math.min(PAGES_PER_VIEW * currentPageGroup, totalPages); // 전체 페이지 개수보다 커질 수 없게 한다.
+  // const end =
+  //   PAGES_PER_VIEW * currentPageGroup > totalPages ? totalPages : PAGES_PER_VIEW * currentPageGroup;
   for (let i = start; i < end; i++) {
     pages.push(i + 1); // index가 0에서부터 시작하니까 +1
   }

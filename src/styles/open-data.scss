@@ -1,3 +1,9 @@
+:root {
+  --background-color__box: #eee;
+  --border-color__box: #e0e0e0;
+  --background-color__table: #fff;
+}
+
 .open-data {
   section {
     display: flex;
@@ -5,7 +11,8 @@
     gap: 1rem;
 
     > * {
-      border: 1px solid;
+      background-color: var(--background-color__box);
+      border: 1px solid var(--border-color__box);
       border-radius: 7px;
       padding: 1rem;
     }
@@ -26,6 +33,19 @@
       button {
         padding: 0.5rem;
       }
+
+      input {
+        border: 1px solid #ccc;
+      }
+
+      .search-button {
+        background-color: #bbb;
+
+        // &:hover {
+        //   background-color: #000;
+        //   color: #fff;
+        // }
+      }
     }
 
     .content {
@@ -42,12 +62,12 @@
       }
 
       table {
-        border: 1px solid red;
         border-collapse: collapse;
+        background-color: var(--background-color__table);
 
         th,
         td {
-          border: 1px solid lightgray;
+          border: 1px solid var(--border-color__box);
           padding: 0.5rem;
         }
       }

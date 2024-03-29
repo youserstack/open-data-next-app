@@ -1,13 +1,14 @@
 "use client";
 
+import OpenDataRows from "@/components/OpenDataRows";
+import JsonplaceholderPosts from "@/components/JsonplaceholderPosts";
 import Pagination from "../../components/Pagination";
 import { useEffect, useState } from "react";
-import "../../styles/open-data.scss";
 import { fetchData } from "@/utils/fetchData";
 import { getData, getDataWithOpenApi } from "@/data/getData";
-import OpenDataRows from "@/components/OpenDataRows";
+import "../../styles/open-data.scss";
 
-const ITEMS_PER_PAGE = 20; // 페이지당 아이템수
+const ITEMS_PER_PAGE = 5; // 페이지당 아이템수
 
 export default function page() {
   const [items, setItems] = useState([]);
@@ -52,6 +53,7 @@ export default function page() {
     };
 
     fetchOpenDataRows();
+    // fetchPosts();
   }, [currentPage]);
 
   // 검색
@@ -86,41 +88,81 @@ export default function page() {
 
       setFilteredData(rows);
       setTotalItems(rows.length);
-    } catch (err) {}
+    } catch (err) {
+      console.log({ err });
+    }
+    setLoading(false);
+  };
+  const searchDataFromJsonplaceholder = async (e: any) => {
+    e.preventDefault();
+
+    setLoading(true);
+    try {
+      let fetchers = [];
+
+      for (let i = 1; i < 8; i++) {
+        const start = (i - 1) * 1000 + 1;
+        const end = i * 1000;
+        const url = `http://openapi.seoul.go.kr:8088/${process.env.SEOUL_OPEN_API_KEY}/json/VwsmAdstrdNcmCnsmpW/${start}/${end}`;
+        fetchers.push(fetchData(url));
+      }
+
+      const responses = await Promise.all(fetchers);
+      let rows: any = [];
+      for (let i = 0; i < responses.length; i++) {
+        const response = responses[i];
+        const filtered = response.VwsmAdstrdNcmCnsmpW.row.filter((v: any) =>
+          v.ADSTRD_CD_NM.includes(search)
+        );
+        rows.push(...filtered);
+      }
+      console.log({ rows });
+
+      setFilteredData(rows);
+      setTotalItems(rows.length);
+    } catch (err) {
+      console.log({ err });
+    }
     setLoading(false);
   };
 
   return (
     <main className="open-data">
       <section>
-        <h1 className="title">Search with Open API</h1>
+        <h1 className="title">서울시 공공데이터 검색</h1>
         <div className="search">
           <input
             type="text"
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch(e)}
           />
-          <button onClick={handleSearch}>행정동 검색</button>
+          <button className="search-button" onClick={handleSearch}>
+            행정동 검색
+          </button>
         </div>
         <div className="content">
           {items.length ? (
             <div className="pages">
-              <h3>전체 페이지 : {Math.ceil(totalItems / ITEMS_PER_PAGE)}</h3>
-              <h3>현재 페이지 : {currentPage}</h3>
-              <h3>데이터 개수 : {items.length}</h3>
+              <h4>전체 데이터 개수 : {totalItems}</h4>
+              <h4>전체 페이지 : {Math.ceil(totalItems / ITEMS_PER_PAGE)}</h4>
+              <h4>페이지당 데이터 개수 : {items.length}</h4>
             </div>
           ) : null}
           <table>
-            {/* <thead>
+            <thead>
               <tr>
                 <th>기준_년분기_코드</th>
                 <th>행정동_코드_명</th>
                 <th>월_평균_소득_금액</th>
                 <th>지출_총금액</th>
               </tr>
-            </thead> */}
+            </thead>
             <tbody>
               <OpenDataRows items={filteredData.length ? filteredData : items} loading={loading} />
+              {/* <JsonplaceholderPosts
+                items={filteredData.length ? filteredData : items}
+                loading={loading}
+              /> */}
             </tbody>
           </table>
           <Pagination
@@ -128,11 +170,6 @@ export default function page() {
             currentPage={currentPage}
             ITEMS_PER_PAGE={ITEMS_PER_PAGE}
             setCurrentPage={setCurrentPage}
-            // currentPages={currentPages}
-            // 액션
-            // previousPages={previousPages}
-            // nextPages={nextPages}
-            // selectPage={selectPage}
           />
         </div>
       </section>
