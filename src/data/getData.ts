@@ -1,8 +1,6 @@
 import { fetchData } from "@/utils/fetchData";
 
-const ITEMS_PER_PAGE = 10; // 페이지당 아이템수
-
-export async function getData({ url, page }: any) {
+export async function getData({ url, page, ITEMS_PER_PAGE }: any) {
   const data = await fetchData(url);
 
   const start = (page - 1) * ITEMS_PER_PAGE;

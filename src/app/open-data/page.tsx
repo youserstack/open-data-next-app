@@ -7,7 +7,7 @@ import "../../styles/open-data.scss";
 import { fetchData } from "@/utils/fetchData";
 import { getData } from "@/data/getData";
 
-const ITEMS_PER_PAGE = 10; // 페이지당 아이템수
+const ITEMS_PER_PAGE = 20; // 페이지당 아이템수
 
 export default function page() {
   const [items, setItems] = useState([]);
@@ -29,6 +29,7 @@ export default function page() {
       const data: any = await getData({
         url: "https://jsonplaceholder.typicode.com/posts",
         page: currentPage,
+        ITEMS_PER_PAGE,
       });
       // const data: any = await fetchData("https://jsonplaceholder.typicode.com/posts");
       // console.log({ data });
