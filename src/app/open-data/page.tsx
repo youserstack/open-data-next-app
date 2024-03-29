@@ -8,7 +8,7 @@ import { fetchData } from "@/utils/fetchData";
 import { getData, getDataWithOpenApi } from "@/data/getData";
 import "../../styles/open-data.scss";
 
-const ITEMS_PER_PAGE = 5; // 페이지당 아이템수
+const ITEMS_PER_PAGE = 10; // 페이지당 아이템수
 
 export default function page() {
   const [items, setItems] = useState([]);
@@ -17,6 +17,7 @@ export default function page() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // 테스트 데이터
     const fetchPosts = async () => {
       setLoading(true);
 
@@ -32,6 +33,7 @@ export default function page() {
       setLoading(false);
     };
 
+    // 서울시 공공 데이터
     const fetchOpenDataRows = async () => {
       setLoading(true);
 
@@ -52,13 +54,16 @@ export default function page() {
       setLoading(false);
     };
 
+    if (searchWord) return paginateSearchedItems();
     fetchOpenDataRows();
     // fetchPosts();
   }, [currentPage]);
 
   // 검색
-  const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [searchWord, setSearchWord] = useState("");
+  const [searchedItems, setSearchedItems] = useState([]);
+  const [paginatedItems, setPaginatedItems] = useState([]);
+  const [searchedTotalItems, setSearchedTotalItems] = useState(0);
 
   // 1000개만 호출이 가능하니, 8000개의 데이터라면 8번 나누어서 데이터를 가져온다.
   const handleSearch = async (e: any) => {
@@ -80,50 +85,32 @@ export default function page() {
       for (let i = 0; i < responses.length; i++) {
         const response = responses[i];
         const filtered = response.VwsmAdstrdNcmCnsmpW.row.filter((v: any) =>
-          v.ADSTRD_CD_NM.includes(search)
+          v.ADSTRD_CD_NM.includes(searchWord)
         );
         rows.push(...filtered);
       }
-      console.log({ rows });
+      // console.log({ rows });
 
-      setFilteredData(rows);
-      setTotalItems(rows.length);
+      setSearchedItems(rows);
+      setSearchedTotalItems(rows.length);
+
+      // 검색된 아이템들은 클라이언트에 모두 저장되어 있기 때문에
+      // 페이지를 이동할때 저장된 클라이언트의 데이터에서 추출만하면 된다.
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      const slicedItems = rows.slice(start, end);
+      setPaginatedItems(slicedItems);
     } catch (err) {
       console.log({ err });
     }
     setLoading(false);
   };
-  const searchDataFromJsonplaceholder = async (e: any) => {
-    e.preventDefault();
 
-    setLoading(true);
-    try {
-      let fetchers = [];
-
-      for (let i = 1; i < 8; i++) {
-        const start = (i - 1) * 1000 + 1;
-        const end = i * 1000;
-        const url = `http://openapi.seoul.go.kr:8088/${process.env.SEOUL_OPEN_API_KEY}/json/VwsmAdstrdNcmCnsmpW/${start}/${end}`;
-        fetchers.push(fetchData(url));
-      }
-
-      const responses = await Promise.all(fetchers);
-      let rows: any = [];
-      for (let i = 0; i < responses.length; i++) {
-        const response = responses[i];
-        const filtered = response.VwsmAdstrdNcmCnsmpW.row.filter((v: any) =>
-          v.ADSTRD_CD_NM.includes(search)
-        );
-        rows.push(...filtered);
-      }
-      console.log({ rows });
-
-      setFilteredData(rows);
-      setTotalItems(rows.length);
-    } catch (err) {
-      console.log({ err });
-    }
-    setLoading(false);
+  const paginateSearchedItems = () => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+    const slicedItems = searchedItems.slice(start, end);
+    setPaginatedItems(slicedItems);
   };
 
   return (
@@ -133,7 +120,7 @@ export default function page() {
         <div className="search">
           <input
             type="text"
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => setSearchWord(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch(e)}
           />
           <button className="search-button" onClick={handleSearch}>
@@ -143,9 +130,14 @@ export default function page() {
         <div className="content">
           {items.length ? (
             <div className="pages">
-              <h4>전체 데이터 개수 : {totalItems}</h4>
-              <h4>전체 페이지 : {Math.ceil(totalItems / ITEMS_PER_PAGE)}</h4>
-              <h4>페이지당 데이터 개수 : {items.length}</h4>
+              <h4>전체 데이터 개수 : {searchWord ? searchedTotalItems : totalItems}</h4>
+              <h4>
+                전체 페이지 :{" "}
+                {searchWord
+                  ? Math.ceil(searchedTotalItems / ITEMS_PER_PAGE)
+                  : Math.ceil(totalItems / ITEMS_PER_PAGE)}
+              </h4>
+              <h4>현재 페이지 데이터 개수 : {searchWord ? paginatedItems.length : items.length}</h4>
             </div>
           ) : null}
           <table>
@@ -158,15 +150,15 @@ export default function page() {
               </tr>
             </thead>
             <tbody>
-              <OpenDataRows items={filteredData.length ? filteredData : items} loading={loading} />
+              <OpenDataRows items={searchWord ? paginatedItems : items} loading={loading} />
               {/* <JsonplaceholderPosts
-                items={filteredData.length ? filteredData : items}
+                items={searchedItems.length ? searchedItems : items}
                 loading={loading}
               /> */}
             </tbody>
           </table>
           <Pagination
-            totalItems={totalItems}
+            totalItems={searchWord ? searchedTotalItems : totalItems}
             currentPage={currentPage}
             ITEMS_PER_PAGE={ITEMS_PER_PAGE}
             setCurrentPage={setCurrentPage}
