@@ -47,13 +47,10 @@ export default function OpenData() {
       const end = ITEMS_PER_PAGE * currentPage;
       // const openApiUrl = `${domain}/${authKey}/json/${serviceCode}/${start}/${end}`;
       const openApiUrl = `${baseUrl}/api/${authKey}/json/${serviceCode}/${start}/${end}`;
-      console.log({ openApiUrl });
+      // console.log({ openApiUrl });
       const data = await fetch(openApiUrl).then((res) => res.json());
-      // const data: any = await getDataWithOpenApi({
-      //   url: openApiUrl,
-      // });
       const { RESULT, list_total_count, row } = data.VwsmAdstrdNcmCnsmpW;
-      console.log({ data });
+      // console.log({ data });
       const keys: any = Object.keys(data);
       setServiceName(keys[0]);
       setItems(row);
@@ -83,7 +80,7 @@ export default function OpenData() {
       for (let i = 1; i < 8; i++) {
         const start = (i - 1) * 1000 + 1;
         const end = i * 1000;
-        const url = `http://openapi.seoul.go.kr:8088/${process.env.SEOUL_OPEN_API_KEY}/json/VwsmAdstrdNcmCnsmpW/${start}/${end}`;
+        const url = `${baseUrl}/api/${process.env.SEOUL_OPEN_API_KEY}/json/VwsmAdstrdNcmCnsmpW/${start}/${end}`;
         fetchers.push(fetchData(url));
       }
 
