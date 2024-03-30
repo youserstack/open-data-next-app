@@ -39,7 +39,7 @@
         border: 1px solid #ccc;
       }
 
-      .search-button {
+      button {
         background-color: #bbb;
 
         // &:hover {
@@ -62,18 +62,27 @@
         justify-content: space-between;
       }
 
-      table {
-        border-collapse: collapse;
-        background-color: var(--background-color__table);
+      .table {
+        overflow-x: scroll;
 
-        th,
-        td {
-          border: 1px solid var(--border-color__box);
-          padding: 0.5rem;
-        }
+        table {
+          width: max-content;
+          border-collapse: collapse;
+          background-color: var(--background-color__table);
 
-        th {
-          background-color: var(--background-color__table-head);
+          th,
+          td {
+            border: 1px solid var(--border-color__box);
+            padding: 0.5rem;
+          }
+
+          th {
+            background-color: var(--background-color__table-head);
+          }
+
+          tr:nth-of-type(n):hover {
+            background-color: #ffeb3b;
+          }
         }
       }
 

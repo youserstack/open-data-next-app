@@ -15,6 +15,7 @@ export default function page() {
   const [totalItems, setTotalItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [seviceName, setServiceName] = useState("");
 
   useEffect(() => {
     // 테스트 데이터
@@ -36,7 +37,6 @@ export default function page() {
     // 서울시 공공 데이터
     const fetchOpenDataRows = async () => {
       setLoading(true);
-
       const domain = process.env.SEOUL_OPEN_URL;
       const authKey = process.env.SEOUL_OPEN_API_KEY;
       const serviceCode = "VwsmAdstrdNcmCnsmpW";
@@ -47,8 +47,9 @@ export default function page() {
         url: openApiUrl,
       });
       const { RESULT, list_total_count, row } = data.VwsmAdstrdNcmCnsmpW;
-      // console.log({ data });
-
+      console.log({ data });
+      const keys: any = Object.keys(data);
+      setServiceName(keys[0]);
       setItems(row);
       setTotalItems(list_total_count);
       setLoading(false);
@@ -136,7 +137,7 @@ export default function page() {
   return (
     <main className="open-data">
       <section>
-        <h1 className="title">서울시 공공데이터 검색</h1>
+        <h1 className="title">서울시 소득소비 데이터</h1>
         <div className="search">
           <input
             type="text"
@@ -149,9 +150,9 @@ export default function page() {
           <button
             className="sort-button"
             onClick={handleSort}
-            // disabled={searchedItems.length === 0}
+            disabled={searchedItems.length === 0}
           >
-            사전순 정렬
+            검색결과 사전순 정렬
           </button>
         </div>
         <div className="content">
@@ -167,28 +168,41 @@ export default function page() {
               <h4>현재 페이지 데이터 개수 : {searchWord ? paginatedItems.length : items.length}</h4>
             </div>
           ) : null}
-          <table>
-            <thead>
-              <tr>
-                <th>기준_년분기_코드</th>
-                <th>행정동_코드_명</th>
-                <th>월_평균_소득_금액</th>
-                <th>지출_총금액</th>
-              </tr>
-            </thead>
-            <tbody>
-              <OpenDataRows items={searchWord ? paginatedItems : items} loading={loading} />
-              {/* <JsonplaceholderPosts
+          <div className="table">
+            <table>
+              <thead>
+                {seviceName === "VwsmAdstrdNcmCnsmpW" ? (
+                  <tr>
+                    <th>행정동_코드_명</th>
+                    <th>월_평균_소득_금액</th>
+                    <th>지출_총금액</th>
+                    <th>식료품_지출_총금액</th>
+                    <th>의류_신발_지출_총금액</th>
+                    <th>생활용품_지출_총금액</th>
+                    <th>의료비_지출_총금액</th>
+                    <th>교통_지출_총금액</th>
+                    <th>교육_지출_총금액</th>
+                    <th>유흥_지출_총금액</th>
+                    <th>여가_문화_지출_총금액</th>
+                    <th>기타_지출_총금액</th>
+                    <th>음식_지출_총금액</th>
+                  </tr>
+                ) : null}
+              </thead>
+              <tbody>
+                <OpenDataRows items={searchWord ? paginatedItems : items} loading={loading} />
+                {/* <JsonplaceholderPosts
                 items={searchedItems.length ? searchedItems : items}
                 loading={loading}
               /> */}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
           <Pagination
-            totalItems={searchWord ? searchedTotalItems : totalItems}
-            currentPage={currentPage}
             ITEMS_PER_PAGE={ITEMS_PER_PAGE}
+            currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            totalItems={searchWord ? searchedTotalItems : totalItems}
           />
         </div>
       </section>

@@ -9,6 +9,7 @@
 :root {
   --background-color: #fff;
   --color: #333;
+  --color__anchor: #fff;
 }
 
 // layout
@@ -69,8 +70,8 @@ html {
 // elements
 html {
   a {
-    text-decoration: initial;
-    // text-decoration: none;
+    text-decoration: none;
+    color: var(--color__anchor);
   }
 
   ul,
