@@ -9,6 +9,8 @@ import { getData, getDataWithOpenApi } from "@/data/getData";
 import "../../styles/open-data.scss";
 
 const ITEMS_PER_PAGE = 50; // 페이지당 아이템수
+const baseUrl =
+  process.env.NODE_ENV === "production" ? process.env.BASE_URL : process.env.NEXT_PUBLIC_ENV;
 
 export default function OpenData() {
   const [items, setItems] = useState([]);

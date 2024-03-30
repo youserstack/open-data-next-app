@@ -7,6 +7,14 @@ const nextConfig = {
   images: {
     domains: ["res.cloudinary.com"],
   },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/about',
+  //       destination: `${process.env.SEOUL_OPEN_URL}`,
+  //     },
+  //   ]
+  // },
 };
 
 export default nextConfig;
