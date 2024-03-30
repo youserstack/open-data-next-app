@@ -10,7 +10,7 @@ import "../../styles/open-data.scss";
 
 const ITEMS_PER_PAGE = 50; // 페이지당 아이템수
 
-export default function page() {
+export default function OpenData() {
   const [items, setItems] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
