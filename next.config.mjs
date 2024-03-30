@@ -12,7 +12,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path*",
+        source: `/api/${process.env.SEOUL_OPEN_API_KEY}/json/VwsmAdstrdNcmCnsmpW/:start/:end`,
         destination: `${process.env.SEOUL_OPEN_URL}/${process.env.SEOUL_OPEN_API_KEY}/json/VwsmAdstrdNcmCnsmpW/:start/:end`,
       },
     ];

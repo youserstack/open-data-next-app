@@ -9,9 +9,9 @@ import { getData, getDataWithOpenApi } from "@/data/getData";
 import "../../styles/open-data.scss";
 
 const ITEMS_PER_PAGE = 50; // 페이지당 아이템수
+
 const baseUrl =
   process.env.NODE_ENV === "production" ? process.env.BASE_URL : process.env.NEXT_PUBLIC_ENV;
-console.log({ next: process.env.NEXT_PUBLIC_ENV });
 
 export default function OpenData() {
   const [items, setItems] = useState([]);
@@ -45,8 +45,8 @@ export default function OpenData() {
       const serviceCode = "VwsmAdstrdNcmCnsmpW";
       const start = ITEMS_PER_PAGE * (currentPage - 1) + 1; // 시작에 1을 더해준다.
       const end = ITEMS_PER_PAGE * currentPage;
-      const openApiUrl = `${domain}/${authKey}/json/${serviceCode}/${start}/${end}`;
-      // const openApiUrl = `${baseUrl}/api/${authKey}/json/${serviceCode}/${start}/${end}`;
+      // const openApiUrl = `${domain}/${authKey}/json/${serviceCode}/${start}/${end}`;
+      const openApiUrl = `${baseUrl}/api/${authKey}/json/${serviceCode}/${start}/${end}`;
       console.log({ openApiUrl });
       const data = await fetch(openApiUrl).then((res) => res.json());
       // const data: any = await getDataWithOpenApi({
