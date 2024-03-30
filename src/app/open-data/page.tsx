@@ -8,7 +8,7 @@ import { fetchData } from "@/utils/fetchData";
 import { getData, getDataWithOpenApi } from "@/data/getData";
 import "../../styles/open-data.scss";
 
-const ITEMS_PER_PAGE = 10; // 페이지당 아이템수
+const ITEMS_PER_PAGE = 50; // 페이지당 아이템수
 
 export default function page() {
   const [items, setItems] = useState([]);

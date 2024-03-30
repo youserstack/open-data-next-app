@@ -38,15 +38,6 @@
       input {
         border: 1px solid #ccc;
       }
-
-      button {
-        background-color: #bbb;
-
-        // &:hover {
-        //   background-color: #000;
-        //   color: #fff;
-        // }
-      }
     }
 
     .content {
@@ -104,13 +95,14 @@
 
         .page-number {
           background-color: #aaa;
+          border-radius: 5px;
 
           a {
             width: 1.5rem;
             height: 1.5rem;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;
             color: #fff;
           }
         }

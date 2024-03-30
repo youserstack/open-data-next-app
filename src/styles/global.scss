@@ -9,7 +9,9 @@
 :root {
   --background-color: #fff;
   --color: #333;
+
   --color__anchor: #fff;
+  --background-color__button: #ccc;
 }
 
 // layout
@@ -64,6 +66,39 @@ html {
   }
 
   footer {
+    background-color: #777;
+    color: #eee;
+    // color: var(--color--gray);
+    // color: var(--color--dark);
+    padding: 3rem;
+
+    > section {
+      // size
+      max-width: 1000px;
+      width: 100%;
+      // min-height: 20vh;
+
+      // position
+      position: relative;
+      margin: auto;
+      padding: 1rem;
+
+      // decoration
+      // border: 1px solid;
+
+      display: flex;
+      // flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      border-top: 1px solid;
+
+      ul {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
   }
 }
 
@@ -89,15 +124,16 @@ html {
   button {
     cursor: pointer;
     border: none;
+    border-radius: 5px;
     padding: 1rem;
+    background-color: var(--background-color__button);
 
     &:hover {
       background-color: #000;
       color: #fff;
 
       &:disabled {
-        background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
-        color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+        cursor: not-allowed;
       }
     }
   }

@@ -5,8 +5,8 @@ export default function Header() {
     <header className="header">
       <section>
         <nav>
-          <Link href={"/"}>home</Link>
-          <Link href={"/open-data"}>open data</Link>
+          <Link href={"/"}>HOME</Link>
+          <Link href={"/open-data"}>OPEN DATA</Link>
         </nav>
       </section>
     </header>
