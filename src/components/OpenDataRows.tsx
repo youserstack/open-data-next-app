@@ -21,7 +21,7 @@ export default function OpenDataRows({ items, loading }: any) {
     );
   }
 
-  return items.map((v: any, i: any) => (
+  return items?.map((v: any, i: any) => (
     // ADSTRD_CD 행정동 코드
 
     // ADSTRD_CD_NM 행정동_코드_명

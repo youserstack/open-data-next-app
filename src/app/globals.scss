@@ -1,26 +1,8 @@
-// public
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  // border: 1px solid;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background-color: #fff;
-  --color: #333;
-
-  --color__anchor: #fff;
-  --background-color__button: #ccc;
-}
-
-// layout
 html {
-  body {
-    background-color: var(--background-color);
-    color: var(--color);
-  }
-
   header,
   main,
   footer {
@@ -54,40 +36,27 @@ html {
   }
 
   main {
-    // min-height: calc(100vh - 3rem);
-
     > section {
       min-height: 100vh;
-      // padding: 0 2rem;
       padding: 2rem;
       padding-top: 70px;
-      // border: 1px dashed;
     }
   }
 
   footer {
     background-color: #777;
     color: #eee;
-    // color: var(--color--gray);
-    // color: var(--color--dark);
     padding: 3rem;
 
     > section {
-      // size
       max-width: 1000px;
       width: 100%;
-      // min-height: 20vh;
 
-      // position
       position: relative;
       margin: auto;
       padding: 1rem;
 
-      // decoration
-      // border: 1px solid;
-
       display: flex;
-      // flex-direction: column;
       justify-content: space-between;
       align-items: center;
 
@@ -102,39 +71,11 @@ html {
   }
 }
 
-// elements
 html {
-  a {
-    text-decoration: none;
-    color: var(--color__anchor);
-  }
-
-  ul,
-  ol,
-  li {
-    list-style: none;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
   button {
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    padding: 1rem;
-    background-color: var(--background-color__button);
-
     &:hover {
       background-color: #000;
       color: #fff;
-
-      &:disabled {
-        cursor: not-allowed;
-      }
     }
   }
 }
