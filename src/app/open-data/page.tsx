@@ -6,9 +6,9 @@ import Pagination from "../../components/Pagination";
 import { useEffect, useState } from "react";
 
 const ITEMS_PER_PAGE = 50;
-const URL = process.env.SEOUL_OPEN_URL;
-const API_KEY = process.env.SEOUL_OPEN_API_KEY;
-const SERVICE = process.env.SEOUL_OPEN_SERVICE;
+const URL = process.env.API_URL;
+const API_KEY = process.env.API_KEY;
+const SERVICE = process.env.API_SERVICE;
 
 export default function OpenData() {
   const [loading, setLoading] = useState(false);
@@ -20,9 +20,10 @@ export default function OpenData() {
 
     const start = ITEMS_PER_PAGE * (currentPage - 1) + 1; // 시작에 1을 더해준다.
     const end = ITEMS_PER_PAGE * currentPage;
-    const apiUrl = `${URL}/${API_KEY}/json/${SERVICE}/${start}/${end}`;
+    // const apiUrl = `${URL}/${API_KEY}/json/${SERVICE}/${start}/${end}`;
+    const openApiUrl = `/api/${API_KEY}/json/${SERVICE}/${start}/${end}`;
 
-    fetch(apiUrl)
+    fetch(openApiUrl)
       .then((res) => res.json())
       .then((data) => {
         if (!data.VwsmAdstrdNcmCnsmpW) throw new Error("VwsmAdstrdNcmCnsmpW not found in response");
@@ -53,9 +54,9 @@ export default function OpenData() {
           <Table data={data} loading={loading} />
           <Pagination
             ITEMS_PER_PAGE={ITEMS_PER_PAGE}
+            totalItems={data?.list_total_count || 0}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            // totalItems={searchWord ? searchedTotalItems : totalItems}
           />
         </div>
       </section>

@@ -1,11 +1,23 @@
 /** @type {import('next').NextConfig} */
+const API_URL = process.env.API_URL;
+const API_KEY = process.env.API_KEY;
+const API_SERVICE = process.env.API_SERVICE;
+
 const nextConfig = {
   env: {
-    SEOUL_OPEN_URL: process.env.SEOUL_OPEN_URL,
-    SEOUL_OPEN_API_KEY: process.env.SEOUL_OPEN_API_KEY,
-    SEOUL_OPEN_SERVICE: process.env.SEOUL_OPEN_SERVICE,
+    API_URL,
+    API_KEY,
+    API_SERVICE,
   },
   images: { domains: ["res.cloudinary.com"] },
+  async rewrites() {
+    return [
+      {
+        source: `/api/${API_KEY}/json/VwsmAdstrdNcmCnsmpW/:start/:end`,
+        destination: `${API_URL}/${API_KEY}/json/VwsmAdstrdNcmCnsmpW/:start/:end`,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

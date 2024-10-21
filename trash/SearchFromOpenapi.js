@@ -21,7 +21,7 @@
 //       setLoading(true);
 
 //       const ip = "openapi.seoul.go.kr:8088";
-//       const authKey = process.env.REACT_APP_SEOUL_OPEN_API_KEY;
+//       const authKey = process.env.REACT_APP_API_KEY;
 //       const serviceCode = "VwsmAdstrdNcmCnsmpW";
 
 //       // 페이지네이션을 위한 계산

@@ -1,5 +1,12 @@
 import Link from "next/link";
 
+interface Props {
+  ITEMS_PER_PAGE: number;
+  totalItems: number;
+  currentPage: number;
+  setCurrentPage: any;
+}
+
 const PAGES_PER_VIEW = 10; // 화면당 페이지 개수
 
 export default function Pagination({
@@ -7,7 +14,7 @@ export default function Pagination({
   totalItems,
   currentPage,
   setCurrentPage,
-}: any) {
+}: Props) {
   // 전체 페이지 개수 = 전체 아이템 개수 / 페이지당 아이템 개수
   const totalPages: any = Math.ceil(totalItems / ITEMS_PER_PAGE); // 마지막 페이지, 페이지 구간에서 next button disable 을 하기 위해 필요
 
@@ -24,8 +31,8 @@ export default function Pagination({
     pages.push(i + 1); // index가 0에서부터 시작하니까 +1
   }
 
-  const previousPages = () => setCurrentPage((page: any) => page - 1);
-  const nextPages = () => setCurrentPage((page: any) => page + 1);
+  const previousPages = () => setCurrentPage((page: number) => page - 1);
+  const nextPages = () => setCurrentPage((page: number) => page + 1);
   const selectPage = (page: any) => setCurrentPage(page);
 
   return (
