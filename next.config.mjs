@@ -1,22 +1,17 @@
 /** @type {import('next').NextConfig} */
-const API_URL = process.env.API_URL;
-const API_KEY = process.env.API_KEY;
-const API_SERVICE = process.env.API_SERVICE;
+
+const endpointUrl = `${process.env.API_KEY}/json/VwsmAdstrdNcmCnsmpW/:start/:end`;
+const proxyServerApiUrl = `/api/${endpointUrl}`;
+const seoulServerApiUrl = `http://openapi.seoul.go.kr:8088/${endpointUrl}`;
+// console.log({ proxyServerApiUrl, seoulServerApiUrl });
 
 const nextConfig = {
-  env: {
-    API_URL,
-    API_KEY,
-    API_SERVICE,
-  },
+  env: { API_KEY: process.env.API_KEY },
   images: { domains: ["res.cloudinary.com"] },
+
+  // 프록시 서버 (중계역할) : mixed content 오류를 해결함
   async rewrites() {
-    return [
-      {
-        source: `/api/${API_KEY}/json/VwsmAdstrdNcmCnsmpW/:start/:end`,
-        destination: `${API_URL}/${API_KEY}/json/VwsmAdstrdNcmCnsmpW/:start/:end`,
-      },
-    ];
+    return [{ source: proxyServerApiUrl, destination: seoulServerApiUrl }];
   },
 };
 
