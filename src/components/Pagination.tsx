@@ -36,8 +36,12 @@ export default function Pagination({
   const selectPage = (page: any) => setCurrentPage(page);
 
   return (
-    <div className="flex justify-between items-center">
-      <button onClick={previousPages} disabled={currentPage === 1}>{`<`}</button>
+    <div className="flex justify-between items-center mt-8">
+      <button
+        className="px-4 py-1 bg-neutral-700 rounded-sm"
+        onClick={previousPages}
+        disabled={currentPage === 1}
+      >{`<`}</button>
 
       <div className="flex gap-4 flex-wrap">
         {/* {Array(totalPages)
@@ -57,8 +61,8 @@ export default function Pagination({
         {pages.map((page: number) => {
           return (
             <Link
-              className={`px-4 py-1 bg-neutral-200 rounded-sm    
-                ${page === currentPage ? "text-blue-500" : ""}`}
+              className={`px-4 py-1 bg-neutral-700 rounded-sm    
+                ${page === currentPage ? "bg-orange-400" : ""}`}
               key={page}
               href={""}
               onClick={() => selectPage(page)}
@@ -70,6 +74,7 @@ export default function Pagination({
       </div>
 
       <button
+        className="px-4 py-1 bg-neutral-700 rounded-sm"
         onClick={nextPages}
         disabled={currentPage === totalPages || totalPages.length === 0}
       >{`>`}</button>

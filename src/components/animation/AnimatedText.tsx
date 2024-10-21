@@ -28,7 +28,7 @@ export default function AnimatedText({ text }: { text: string }) {
   }, []);
 
   return (
-    <div className="flex text-7xl /select-none">
+    <div className="flex text-4xl md:text-7xl select-none">
       {text.split("").map((char, index) => (
         <span
           key={index}

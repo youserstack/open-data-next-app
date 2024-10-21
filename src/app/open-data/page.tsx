@@ -35,7 +35,7 @@ export default function OpenData() {
       });
   }, [currentPage]);
 
-  useEffect(() => console.log({ data }), [data]);
+  // useEffect(() => console.log({ data }), [data]);
 
   return (
     <main className="mt-[200px] mb-[200px]">
@@ -47,7 +47,7 @@ export default function OpenData() {
       <section className="max-w-screen-lg mx-auto space-y-4 [&_>_*]:p-4">
         <h1>서울시 소득소비 데이터</h1>
 
-        <div className="space-y-4">
+        <div className="flex flex-col gap-8">
           <DataSummary data={data} itemsPerPage={ITEMS_PER_PAGE} />
           <Table data={data} loading={loading} />
           <Pagination
