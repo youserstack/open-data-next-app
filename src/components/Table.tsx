@@ -9,10 +9,18 @@ export default function Table({ data, loading }: Params) {
   return (
     <div className="overflow-x-scroll">
       <table
-        className="w-max border-collapse bg-white 
-        [&_th]:p-2 [&_th]:border [&_th]:bg-neutral-300
-        [&_td]:p-2 [&_td]:border
-        [&_tr:nth-of-type(n):hover]:bg-blue-100"
+        className="
+        w-max border-collapse  
+
+        bg-neutral-700 text-neutral-100
+        [&_*]:border-neutral-500
+
+        [&_th]:p-2 [&_th]:border [&_th]:bg-neutral-800
+        [&_td]:p-2 [&_td]:border 
+
+        [&_tr:nth-of-type(n):hover]:bg-orange-400
+        [&_tr:nth-of-type(n):hover]:text-white
+        "
       >
         <thead>
           <tr>

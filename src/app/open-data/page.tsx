@@ -39,8 +39,13 @@ export default function OpenData() {
   useEffect(() => console.log({ data }), [data]);
 
   return (
-    <main className="open-data">
-      <section className="space-y-4 border [&_>_*]:p-4 [&_>_*]:border">
+    <main className="mt-[200px] mb-[200px]">
+      <div
+        className="fixed inset-0 z-[-10]
+        bg-cover bg-no-repeat bg-center bg-neutral-900"
+      ></div>
+
+      <section className="max-w-screen-lg mx-auto space-y-4 [&_>_*]:p-4">
         <h1>서울시 소득소비 데이터</h1>
 
         <div className="space-y-4">

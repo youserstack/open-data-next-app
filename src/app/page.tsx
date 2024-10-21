@@ -1,24 +1,36 @@
+"use client";
+
 import AnimatedText from "@/components/animation/AnimatedText";
-import Image from "next/image";
-import Link from "next/link";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import "./globals.scss";
 
 export default function Home() {
-  return (
-    <main>
-      <section className="flex flex-col justify-center items-center">
-        <div className="overflow-hidden">
-          <Image
-            src={
-              "https://res.cloudinary.com/dzktdrw7o/image/upload/v1711777808/open-data-next-app/_Users_hsw7308_Desktop_Images_illustration_seoul-skyline-line-art-vector-260nw-2283667917_l8qyks.png"
-            }
-            alt=""
-            width={500}
-            height={500}
-            className="w-full h-full object-cover"
-          />
-        </div>
+  const ref = useRef<HTMLDivElement | null>(null);
 
-        {/* <Link href={"/open-data"}>서울시 공공 데이터</Link> */}
+  useEffect(() => {
+    const divElement = ref.current as HTMLDivElement;
+
+    gsap.to(divElement, {
+      filter: "blur(5px) grayscale(1) brightness(0.75)",
+      duration: 2,
+      ease: "circ.in",
+    });
+  }, []);
+
+  return (
+    <main className="mb-[200px]">
+      <div
+        className="
+        fixed inset-0 
+        bg-cover bg-no-repeat bg-center 
+        bg-[url('/images/vecteezy_futuristic-circuit-board-background-3d-rendering-toned_33860056.jpg')]
+        blur-0 grayscale brightness-100
+        "
+        ref={ref}
+      ></div>
+
+      <section className="max-w-screen-lg min-h-screen mx-auto flex flex-col justify-center items-center">
         <AnimatedText text="서울시 공공 데이터" />
       </section>
     </main>
