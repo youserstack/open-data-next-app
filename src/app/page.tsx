@@ -24,7 +24,7 @@ export default function Home() {
         className="
         fixed inset-0 
         bg-cover bg-no-repeat bg-center 
-        bg-[url('/images/vecteezy_futuristic-circuit-board-background-3d-rendering-toned_33860056.jpg')]
+        bg-[url('https://res.cloudinary.com/dzktdrw7o/image/upload/v1729508327/open-data-next-app/vecteezy_futuristic-circuit-board-background-3d-rendering-toned_33860056_fb1vxc.jpg')]
         blur-0 grayscale brightness-100
         "
         ref={ref}
